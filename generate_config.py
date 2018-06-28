@@ -39,10 +39,10 @@ def get_ip():
     re_v4 = re.compile('inet.*?([0-9]*\.[0-9]*\.[0-9]*\.[0-9]*)', re.S)
     re_v6 = re.compile('inet6.*?(2400.*?) ')
 
-    v4 = re_v4.findall(ifconfig)
+    v4 = re_v4.findall(ifconfig)[0]
     v6 = re_v6.findall(ifconfig)
 
-    v4 = run('ifconfig | grep -A 1 "en" | grep broadcast | cut -d " " -f 2 | tr "\\n" " "').decode('utf-8')
+    # v4 = run('ifconfig | grep -A 1 "en" | grep broadcast | cut -d " " -f 2 | tr "\\n" " "').decode('utf-8')
     v6 = run('curl --silent http://icanhazip.com').decode('utf-8').replace('\n', '')
     while v4[-1] == ' ':
         v4 = v4[:-1]
@@ -80,8 +80,11 @@ if __name__ == '__main__':
             ipv4_remark.replace(' ', '%20'))
 
     code_v6 = '{}:{}@{}:{}?Remark={}&OTA=fal'.format(data['method'], \
-            data['password'], ipv6, data['server_port'], \
-            ipv6_remark.replace(' ', '%20'))
+            data['password'], ipv6.replace(':', '%3A'), \
+            data['server_port'], ipv6_remark.replace(' ', '%20'))
+
+    print(code_v4)
+    print(code_v6)
 
     code_v4 = 'ss://' + base64.b64encode(code_v4.encode()).decode('utf-8')
     code_v6 = 'ss://' + base64.b64encode(code_v6.encode()).decode('utf-8')
