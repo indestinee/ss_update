@@ -83,16 +83,23 @@ if __name__ == '__main__':
             data['password'], ipv6.replace(':', '%3A'), \
             data['server_port'], ipv6_remark.replace(' ', '%20'))
 
-    print(code_v4)
-    print(code_v6)
+    wingy = '{}:{}@{}:{}'.format(data['method'], data['password'],\
+            ipv4, data['server_port'])
 
+    
     code_v4 = 'ss://' + base64.b64encode(code_v4.encode()).decode('utf-8')
     code_v6 = 'ss://' + base64.b64encode(code_v6.encode()).decode('utf-8')
+    code_wingy = 'ss://' + base64.b64encode(wingy.encode()).decode('utf-8')
+    print(code_v4)
+    print(code_v6)
+    print(code_wingy)
+    
+    
 
 
     with open(cfg.data_path, 'w') as f:
-        json.dump([[[code_v4, ipv4_remark], [code_v6, ipv6_remark]]\
-                , ipv4, ipv6], f)
+        json.dump([[[code_v4, ipv4_remark], [code_v6, ipv6_remark], [code_wingy, 'wingy']],\
+                ipv4, ipv6], f)
 
     with open(cfg.config_path, 'w') as f:
         json.dump(data, f)
