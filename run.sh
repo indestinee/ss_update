@@ -1,2 +1,1 @@
-python3 web.py
-/etc/init.d/shadowsocks restart
+python3 web.py --https

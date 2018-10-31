@@ -92,6 +92,7 @@ class Generator(object):
         }
         with open('/etc/shadowsocks/config.json', 'w') as f:
             json.dump(ss_profile, f)
+        self.shell('/etc/init.d/shadowsocks restart')
         ips = self.get_ip()
         date_time = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 
