@@ -8,16 +8,16 @@
         <script type="text/javascript" src="qrcode.min.js"></script>
     </head>
     <body>
-        {% for msg in msgs %}
-        <h3>{{msg[1]}}</h3>
-        <div id="qrcode_{{msg[1]}}" style="width:400px; height:400px; margin-top:15px;">
+        {% for name, code in codes.items() %}
+        <h3>{{name}}</h3>
+        <div id="qrcode_{{name}}" style="width:400px; height:400px; margin-top:15px;">
         </div>
         <script type="text/javascript">
-            var qrcode = new QRCode(document.getElementById("qrcode_{{msg[1]}}"), {
+            var qrcode = new QRCode(document.getElementById("qrcode_{{name}}"), {
                 width : 400,
                 height : 400
             });
-            qrcode.makeCode('{{msg[0]}}');
+            qrcode.makeCode('{{code}}');
         </script>
         <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
         {% endfor %}
