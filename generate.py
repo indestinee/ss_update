@@ -90,6 +90,8 @@ class Generator(object):
             "timeout": 300,
             "method": method,
         }
+        with open('/etc/shadowsocks/config.json', 'w') as f:
+            json.dump(ss_profile, f)
         ips = self.get_ip()
         date_time = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
 
