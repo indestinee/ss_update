@@ -42,13 +42,13 @@ class Generator(object):
     def get_ip(self):
         """TODO: Docstring for get_ip.
 
-        :returns: ipv4 & ipv6 address
+        :returns: IPv4 & IPv6 address
 
         """
         if self.ips is None:
             urls = {
-                'ipv4': 'https://ipv4.icanhazip.com/',
-                'ipv6': 'https://ipv6.icanhazip.com/',
+                'IPv4': 'https://IPv4.icanhazip.com/',
+                'IPv6': 'https://IPv6.icanhazip.com/',
             }
             self.ips = {
                 key: self.shell('curl --silent {}'.format(url)).decode('utf-8').strip()
@@ -94,15 +94,17 @@ class Generator(object):
             json.dump(ss_profile, f)
         self.shell('/etc/init.d/shadowsocks restart')
         ips = self.get_ip()
-        date_time = time.strftime("%Y/%m/%d %H:%M:%S", time.localtime())
+        date_time = time.strftime("%Y%m%d_%H%M%S", time.localtime())
 
         codes = {}
         for ip_key, ip in ips.items():
-            code = 'ss://{}'.format(self.encode('{}:{}@{}:{}?Remark={}'.format(
-                method, passwd, ip.replace(':', '%3A'), port, '{}@{}'.format(
-                    ip_key, date_time).replace(' ', '%20'))))
-            codes[ip_key] = code
-            print(code)
+            code = 'ss://{}'.format(self.encode('{0}:{1}@{2}:{3}/?Remark={4}'.format(
+                method, passwd, ip.replace(':', '%3A'), port, ip_key)))
+            codes['Mac ' + ip_key] = code
+
+            code = 'ss://{}#{}'.format(self.encode('{0}:{1}@{2}:{3}'.format(
+                method, passwd, ip.replace(':', '%%'), port)), ip_key)
+            codes['Potatso Lite ' + ip_key] = code
         return codes
             
             
