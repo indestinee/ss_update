@@ -1,3 +1,7 @@
 sudo apt install shadowsocks
 pip3 install flask numpy
-mkdir /etc/shadowsocks
+if [ ! -d /etc/shadowsocks ]
+then
+    mkdir /etc/shadowsocks
+fi
+./runbbr.sh
